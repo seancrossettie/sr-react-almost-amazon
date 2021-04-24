@@ -35,6 +35,7 @@ export default function AuthorForm() {
           placeholder='Name'
           value={author.name}
           onChange={handleInputChange}
+          required
           ></input>
           <label>Email: </label>
         <input
@@ -43,6 +44,7 @@ export default function AuthorForm() {
           placeholder='Email'
           value={author.email}
           onChange={handleInputChange}
+          required
           ></input>
           <button type='submit'>Submit</button>
         </form>
