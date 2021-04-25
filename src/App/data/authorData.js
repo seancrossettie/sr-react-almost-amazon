@@ -13,4 +13,10 @@ const addAuthor = (author) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-export default addAuthor;
+const getAuthors = () => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/authors.json`)
+    .then((response) => resolve(Object.values(response.data)))
+    .catch((error) => reject(error));
+});
+
+export { addAuthor, getAuthors };
