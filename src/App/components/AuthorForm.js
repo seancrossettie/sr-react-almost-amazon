@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import addAuthor from '../data/authorData';
+import { addAuthor } from '../data/authorData';
 
 export default function AuthorForm() {
   const [author, setAuthor] = useState({
@@ -14,8 +14,7 @@ export default function AuthorForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     addAuthor(author);
   };
 
