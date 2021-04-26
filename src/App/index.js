@@ -4,13 +4,12 @@ import firebase from 'firebase';
 import firebaseConfig from './data/apiKeys';
 import AuthorForm from './components/AuthorForm';
 import { getAuthors } from './data/authorData';
+import AuthorCard from './components/AuthorCard';
 
 firebase.initializeApp(firebaseConfig);
 
 function App() {
   const [authors, setAuthors] = useState([]);
-
-  console.warn(authors);
 
   useEffect(() => {
     getAuthors().then((resp) => setAuthors(resp));
@@ -18,7 +17,14 @@ function App() {
 
   return (
     <div className='App'>
-      <AuthorForm />
+      <AuthorForm formTitle='Add an Author'/>
+      {authors.map((authorInfo) => (
+        <AuthorCard key={authorInfo.firebaseKey}
+          name={authorInfo.name}
+          email={authorInfo.email}
+          handleClick={() => console.warn(`${authorInfo.name}'s email is ${authorInfo.email}`)}
+        />
+      ))}
     </div>
   );
 }
