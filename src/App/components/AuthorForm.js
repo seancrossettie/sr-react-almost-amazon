@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { addAuthor } from '../data/authorData';
+import { addAuthor, updateAuthor } from '../data/authorData';
 
-export default function AuthorForm({ formTitle, setAuthors }) {
+const AuthorForm = ({
+  formTitle,
+  setAuthors,
+  name,
+  email,
+  firebaseKey
+}) => {
   const [author, setAuthor] = useState({
-    name: '',
-    email: '',
+    name: name || '',
+    email: email || '',
+    firebaseKey: firebaseKey || null
   });
 
   const handleInputChange = (e) => {
@@ -15,9 +22,15 @@ export default function AuthorForm({ formTitle, setAuthors }) {
     }));
   };
 
-  const handleSubmit = () => {
-    addAuthor(author)
-      .then((array) => setAuthors(array));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (author.firebaseKey) {
+      updateAuthor(author)
+        .then((arr) => setAuthors(arr));
+    } else {
+      addAuthor(author)
+        .then((array) => setAuthors(array));
+    }
   };
 
   return (
@@ -52,9 +65,14 @@ export default function AuthorForm({ formTitle, setAuthors }) {
       </div>
     </>
   );
-}
+};
 
 AuthorForm.propTypes = {
   formTitle: PropTypes.string.isRequired,
-  setAuthors: PropTypes.func.isRequired
+  setAuthors: PropTypes.func.isRequired,
+  name: PropTypes.string,
+  email: PropTypes.string,
+  firebaseKey: PropTypes.string
 };
+
+export default AuthorForm;
