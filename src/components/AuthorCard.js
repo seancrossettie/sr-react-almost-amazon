@@ -32,7 +32,9 @@ const AuthorCard = ({
     <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333' }}>
         <CardTitle tag="h5">{name}</CardTitle>
         <CardText>{email}</CardText>
-        <Button color="primary" onClick={() => handleClick('edit')}>Edit Author</Button>
+        <Button color="primary" onClick={() => handleClick('edit')}>
+          {editing ? 'Close Form' : 'Edit Student'}
+        </Button>
         <Button color="danger" onClick={() => handleClick('delete')}>Delete Author</Button>
         {editing && <AuthorForm
           formTitle='Edit Student'
