@@ -17,12 +17,17 @@ function App() {
 
   return (
     <div className='App'>
-      <AuthorForm formTitle='Add an Author'/>
+      <AuthorForm
+      formTitle='Add an Author'
+      setAuthors={setAuthors}
+      />
       {authors.map((authorInfo) => (
-        <AuthorCard key={authorInfo.firebaseKey}
+        <AuthorCard
+          key={authorInfo.firebaseKey}
+          firebaseKey={authorInfo.firebaseKey}
           name={authorInfo.name}
           email={authorInfo.email}
-          handleClick={() => console.warn(`${authorInfo.name}'s email is ${authorInfo.email}`)}
+          setAuthors={setAuthors}
         />
       ))}
     </div>
