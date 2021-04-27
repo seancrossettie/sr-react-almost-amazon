@@ -39,6 +39,7 @@ const AuthorForm = ({
         <form
           id='add-author-form'
           autoComplete='off'
+          className='form-label'
           onSubmit={handleSubmit}
         >
         <h2>{formTitle}</h2>
