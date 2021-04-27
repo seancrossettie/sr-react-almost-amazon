@@ -5,7 +5,7 @@ const dbUrl = firebaseConfig.databaseURL;
 
 const getAuthors = () => new Promise((resolve, reject) => {
   axios.get(`${dbUrl}/authors.json`)
-    .then((response) => resolve(Object.values(response.data || {})))
+    .then((response) => resolve((Object.values(response.data || {}))))
     .catch((error) => reject(error));
 });
 
@@ -28,4 +28,12 @@ const deleteAuthor = (firebaseKey) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-export { addAuthor, getAuthors, deleteAuthor };
+const updateAuthor = (author) => new Promise((resolve, reject) => {
+  axios.patch(`${dbUrl}/authors/${author.firebaseKey}.json`, author)
+    .then(() => getAuthors().then(resolve))
+    .catch((error) => reject(error));
+});
+
+export {
+  addAuthor, getAuthors, deleteAuthor, updateAuthor
+};

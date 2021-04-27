@@ -24,9 +24,7 @@ function App() {
       {authors.map((authorInfo) => (
         <AuthorCard
           key={authorInfo.firebaseKey}
-          firebaseKey={authorInfo.firebaseKey}
-          name={authorInfo.name}
-          email={authorInfo.email}
+          {...authorInfo}
           setAuthors={setAuthors}
         />
       ))}
