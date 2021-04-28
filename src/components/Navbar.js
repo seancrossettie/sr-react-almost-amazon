@@ -22,10 +22,10 @@ const NavBar = () => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <Link className="nav-link" to="/add-students/">Add Students</Link>
+              <Link className="nav-link" to="/add-authors/">Add Authors</Link>
             </NavItem>
             <NavItem>
-              <Link className="nav-link" to="/students">Student Cards</Link>
+              <Link className="nav-link" to="/authors">Author Cards</Link>
             </NavItem>
           </Nav>
         </Collapse>

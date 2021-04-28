@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { addAuthor, updateAuthor } from '../data/authorData';
+import { addAuthor, updateAuthor } from '../helpers/data/authorData';
 
 const AuthorForm = ({
   formTitle,

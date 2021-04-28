@@ -3,7 +3,7 @@ import {
   Card, Button, CardTitle, CardText
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { deleteAuthor } from '../data/authorData';
+import { deleteAuthor } from '../helpers/data/authorData';
 import AuthorForm from './AuthorForm';
 
 const AuthorCard = ({
