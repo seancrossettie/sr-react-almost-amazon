@@ -1,26 +1,14 @@
-import React, { useEffect, useState } from 'react';
-// import './App.scss';
+import React from 'react';
 import firebase from 'firebase';
-import firebaseConfig from '../data/apiKeys';
-import AuthorForm from '../components/AuthorForm';
-import { getAuthors } from '../data/authorData';
+import PropTypes from 'prop-types';
+import firebaseConfig from '../helpers/data/apiKeys';
 import AuthorCard from '../components/AuthorCard';
 
 firebase.initializeApp(firebaseConfig);
 
-function App() {
-  const [authors, setAuthors] = useState([]);
-
-  useEffect(() => {
-    getAuthors().then((resp) => setAuthors(resp));
-  }, []);
-
+function Authors({ authors, setAuthors }) {
   return (
     <div className='App'>
-      <AuthorForm
-      formTitle='Add an Author'
-      setAuthors={setAuthors}
-      />
       {authors.map((authorInfo) => (
         <AuthorCard
           key={authorInfo.firebaseKey}
@@ -32,4 +20,9 @@ function App() {
   );
 }
 
-export default App;
+Authors.propTypes = {
+  authors: PropTypes.array.isRequired,
+  setAuthors: PropTypes.func.isRequired
+};
+
+export default Authors;

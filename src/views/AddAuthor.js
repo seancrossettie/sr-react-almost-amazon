@@ -1,9 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import AuthorForm from '../components/AuthorForm';
 
-export default function AddAuthor() {
+function AddAuthor({ setAuthors }) {
   return (
     <>
-    <h1></h1>
+      <AuthorForm
+        formTitle='Add an Author'
+        setAuthors={setAuthors}
+      />
     </>
   );
 }
+
+AddAuthor.propTypes = {
+  setAuthors: PropTypes.func.isRequired
+};
+
+export default AddAuthor;
