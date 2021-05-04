@@ -1,60 +1,110 @@
 import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  Button
-} from 'reactstrap';
-import { signInUser, signOutUser } from '../helpers/auth';
 
-const NavBar = ({ user }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  loginButton: {
+    flexGrow: 1,
+  },
+}));
 
-  const authenticated = () => (
-    <>
-      <NavItem>
-        <Link className="nav-link" to="/add-authors/">Add Authors</Link>
-      </NavItem>
-      <NavItem>
-        <Link className="nav-link" to="/authors">Author Cards</Link>
-      </NavItem>
-    </>
-  );
+const Header = (props) => {
+  const { history } = props;
+  const classes = useStyles();
+  const [auth, setAuth] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleChange = (event) => {
+    setAuth(event.target.checked);
+  };
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClick = (newRoute) => {
+    if (newRoute === null) {
+      setAnchorEl(null);
+    } else {
+      history.push(newRoute);
+    }
+    setAnchorEl(null);
+  };
 
   return (
-    <div>
-      <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">React</NavbarBrand>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
-            { user && authenticated() }
-          </Nav>
-              <Button onClick={signInUser}>
-                { user !== null
-                  && <div>
-                    {
-                      user
-                        ? <div color="secondary" onClick={signOutUser}>Sign Out</div>
-                        : <div color="secondary" onClick={signInUser}>Sign In</div>
-                    }
-                    </div>
-                }
-              </Button>
-        </Collapse>
-      </Navbar>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            Almost Amazon
+          </Typography>
+          {auth && (
+            <div>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <IconButton edge="start" className={classes.menuButton} color="inherit" onClick={handleMenu} aria-label="menu">
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={() => handleMenuClick(null)}
+              >
+                <MenuItem onClick={() => handleMenuClick('/')}>Home</MenuItem>
+                <MenuItem onClick={() => handleMenuClick('/add-authors/')}>Add Author</MenuItem>
+                <MenuItem onClick={() => handleMenuClick('/authors/')}>Authors</MenuItem>
+              </Menu>
+            </div>
+          )}
+           <FormGroup className={classes.loginButton}>
+            <FormControlLabel
+              control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
+              label={auth ? 'Logout' : 'Login'}
+            />
+          </FormGroup>
+        </Toolbar>
+      </AppBar>
     </div>
   );
 };
 
-NavBar.propTypes = {
-  user: PropTypes.any
+Header.propTypes = {
+  history: PropTypes.object.isRequired
 };
 
-export default NavBar;
+export default withRouter(Header);
