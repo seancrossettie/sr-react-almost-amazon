@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { BrowserRouter as Router } from 'react-router-dom';
-import NavBar from '../components/NavBar';
+import Header from '../components/Header';
 import Routes from '../helpers/Router';
 import { getAuthors } from '../helpers/data/authorData';
 
@@ -32,10 +31,8 @@ function App() {
 
   return (
     <>
-      <Router>
-        <NavBar user={user} />
+        <Header user={user} />
         <Routes authors={authors} setAuthors={setAuthors} />
-      </Router>
     </>
   );
 }

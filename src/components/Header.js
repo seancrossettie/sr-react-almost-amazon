@@ -13,6 +13,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import PropTypes from 'prop-types';
+import { signInUser, signOutUser } from '../helpers/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  loginButton: {
+  title: {
     flexGrow: 1,
   },
 }));
@@ -35,6 +36,11 @@ const Header = (props) => {
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
+    if (auth) {
+      signOutUser();
+    } else {
+      signInUser();
+    }
   };
 
   const handleMenu = (event) => {
@@ -54,19 +60,8 @@ const Header = (props) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Almost Amazon
-          </Typography>
-          {auth && (
+        {auth && (
             <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
               <IconButton edge="start" className={classes.menuButton} color="inherit" onClick={handleMenu} aria-label="menu">
                 <MenuIcon />
               </IconButton>
@@ -90,13 +85,26 @@ const Header = (props) => {
                 <MenuItem onClick={() => handleMenuClick('/authors/')}>Authors</MenuItem>
               </Menu>
             </div>
-          )}
-           <FormGroup className={classes.loginButton}>
+        )}
+          <Typography variant="h6" className={classes.title}>
+            Almost Amazon
+          </Typography>
+          <FormGroup className={classes.loginButton}>
             <FormControlLabel
               control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
               label={auth ? 'Logout' : 'Login'}
             />
           </FormGroup>
+        {auth && (
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        )}
         </Toolbar>
       </AppBar>
     </div>
@@ -104,7 +112,8 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  user: PropTypes.any
 };
 
 export default withRouter(Header);
