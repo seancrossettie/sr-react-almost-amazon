@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { TextField, Button, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { addAuthor, updateAuthor } from '../helpers/data/authorData';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
 
 const AuthorForm = ({
   formTitle,
@@ -9,6 +20,7 @@ const AuthorForm = ({
   email,
   firebaseKey
 }) => {
+  const classes = useStyles();
   const [author, setAuthor] = useState({
     name: name || '',
     email: email || '',
@@ -35,35 +47,39 @@ const AuthorForm = ({
 
   return (
     <>
-      <div className='add-author-form'>
-        <form
-          id='add-author-form'
-          autoComplete='off'
-          className='form-label'
-          onSubmit={handleSubmit}
-        >
-        <h2>{formTitle}</h2>
-        <label>Name: </label>
-        <input
-          name='name'
-          type='text'
-          placeholder='Name'
-          value={author.name}
-          onChange={handleInputChange}
-          required
-          ></input>
-          <label>Email: </label>
-        <input
-          name='email'
-          type='email'
-          placeholder='Email'
-          value={author.email}
-          onChange={handleInputChange}
-          required
-          ></input>
-          <button type='submit'>Submit</button>
+      <Grid container direction='row'>
+          <Grid container direction='column'>
+            <Grid item>
+              <h2>{formTitle}</h2>
+            </Grid>
+        <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <Grid item>
+          <TextField
+            label="Name"
+            name='name'
+            type='text'
+            value={author.name}
+            onChange={handleInputChange}
+            variant="outlined"
+            required
+          />
+          </Grid>
+          <Grid item>
+          <TextField
+            label="Email"
+            variant="outlined"
+            name='email'
+            type='email'
+            value={author.email}
+            onChange={handleInputChange}
+            required
+          />
+          </Grid>
+          <Button type='submit'>Submit</Button>
         </form>
-      </div>
+        </Grid>
+
+      </Grid>
     </>
   );
 };
